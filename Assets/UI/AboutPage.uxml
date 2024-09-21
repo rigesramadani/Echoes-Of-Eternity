@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MenuStyles.uss?fileID=7433441132597879392&amp;guid=382824f82964eed44bb4203c42951ad7&amp;type=3#MenuStyles" />
+    <ui:VisualElement name="AboutPage" style="flex-grow: 1; justify-content: center; align-items: center; padding-right: 0; padding-bottom: 0;">
+        <ui:Label tabindex="-1" text="Echoes of Eternity is a single player story game,&#10;tailored by the choices of the player. You take upon the role of a ghost that can enter the graves of deceased people. This enables the ghost to relive moments from the person&apos;s past that lead to their death. The goal is to make the right choices so that the person does not die." parse-escape-sequences="true" display-tooltip-when-elided="true" name="Description" style="white-space: normal; -unity-text-align: upper-center; margin-bottom: 5%; font-size: 5%;" />
+        <ui:Button text="Back" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BackButton" class="menu-button" />
+    </ui:VisualElement>
+</ui:UXML>

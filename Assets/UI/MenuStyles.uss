@@ -1,0 +1,33 @@
+.menu-button {
+    margin-bottom: 5%;
+    background-color: rgba(47, 47, 47, 0.55);
+    border-left-color: rgba(152, 152, 152, 0.37);
+    border-right-color: rgba(152, 152, 152, 0.37);
+    border-top-color: rgba(152, 152, 152, 0.37);
+    border-bottom-color: rgba(152, 152, 152, 0.37);
+    font-size: 60%;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    width: 50%;
+    height: 17%;
+    transition-duration: 0.15s;
+}
+
+.menu-button:hover {
+    font-size: 60%;
+    color: rgb(120, 92, 184);
+    width: 53%;
+    height: 18%;
+    transition-duration: 0.15s;
+}
+
+.quit-button {
+}
+
+.quit-button:hover {
+    color: rgb(213, 49, 49);
+}
