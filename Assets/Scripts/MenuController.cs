@@ -39,7 +39,7 @@ public class MenuController : MonoBehaviour
     }
 
     private void StartButtonClicked() {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Graveyard");
     }
     
     private void AboutButtonClicked() {
