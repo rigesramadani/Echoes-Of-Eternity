@@ -1,4 +1,5 @@
 using DS.Enums;
+using DS.Utilities;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -15,9 +16,7 @@ namespace DS.Elements {
             base.Draw();
 
             foreach (string choice in choices) {
-                Port choicePort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
-                Debug.Log(choice);
-                choicePort.portName = choice;
+                Port choicePort = this.CreatePort(choice);
                 outputContainer.Add(choicePort);
             }
 

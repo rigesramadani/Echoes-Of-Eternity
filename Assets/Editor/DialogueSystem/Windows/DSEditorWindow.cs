@@ -1,3 +1,4 @@
+using DS.Utilities;
 using UnityEditor;
 using UnityEngine.UIElements;
 
@@ -20,8 +21,7 @@ namespace DS.Windows {
         }
 
         private void AddStyles() {
-            StyleSheet styleSheet = (StyleSheet) EditorGUIUtility.Load("DialogueSystem/DSVariables.uss");
-            rootVisualElement.styleSheets.Add(styleSheet);
+            rootVisualElement.AddStyleSheets("DialogueSystem/DSVariables.uss");
         }
     }
 }

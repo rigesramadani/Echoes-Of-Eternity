@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using DS.Elements;
 using DS.Enums;
+using DS.Utilities;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -39,6 +40,7 @@ public class DSGraphView : GraphView {
 
         this.AddManipulator(CreateNodeContextualMenu("Add single choice node", DSDialogueType.SingleChoice));
         this.AddManipulator(CreateNodeContextualMenu("Add multiple choice node", DSDialogueType.MultipleChoice));
+        this.AddManipulator(CreateGroupContextualMenu());
     }
 
     private IManipulator CreateNodeContextualMenu(string actionTitle, DSDialogueType dialogueType) {
@@ -49,6 +51,23 @@ public class DSGraphView : GraphView {
 
         return contextualMenuManipulator;
     }
+    
+    private IManipulator CreateGroupContextualMenu() {
+        ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
+            menuEvent => menuEvent.menu.AppendAction("Add Group",
+                actionEvent => AddElement(CreateGroup("Dialogue Group", actionEvent.eventInfo.localMousePosition)))
+        );
+
+        return contextualMenuManipulator;
+    }
+
+    private Group CreateGroup(string title, Vector2 eventInfoLocalMousePosition) {
+        Group group = new Group();
+        group.title = title;
+        group.SetPosition(new Rect(eventInfoLocalMousePosition, Vector2.zero));
+
+        return group;
+    }
 
     private void AddGridBackground() {
         GridBackground gridBackground = new GridBackground();
@@ -57,11 +76,7 @@ public class DSGraphView : GraphView {
     }
 
     private void AddStyles() {
-        StyleSheet graphViewStyles = (StyleSheet)EditorGUIUtility.Load("DialogueSystem/DSGraphViewStyles.uss");
-        StyleSheet nodeStyles = (StyleSheet)EditorGUIUtility.Load("DialogueSystem/DSNodeStyles.uss");
-        
-        styleSheets.Add(graphViewStyles);
-        styleSheets.Add(nodeStyles);
+        this.AddStyleSheets("DialogueSystem/DSGraphViewStyles.uss", "DialogueSystem/DSNodeStyles.uss");
     }
 
     private DSNode CreateNode(DSDialogueType dialogueType, Vector2 position) {
