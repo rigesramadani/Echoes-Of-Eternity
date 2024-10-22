@@ -60,6 +60,28 @@ namespace DS.Elements {
             customDataContainer.Add(textFoldout);
             extensionContainer.Add(customDataContainer);
         }
+        
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) {
+            evt.menu.AppendAction("Disconnect input ports", action => DisconnectPorts(inputContainer));
+            evt.menu.AppendAction("Disconnect output ports", action => DisconnectPorts(outputContainer));
+            
+            base.BuildContextualMenu(evt);
+        }
+
+        public void DisconnectAllPorts() {
+            DisconnectPorts(inputContainer);
+            DisconnectPorts(outputContainer);
+        }
+
+        private void DisconnectPorts(VisualElement container) {
+            foreach (Port port in container.Children()) {
+                if (!port.connected) {
+                    continue;
+                }
+                
+                graphView.DeleteElements(port.connections);
+            }
+        }
 
         public void SetErrorColor(Color color) {
             mainContainer.style.backgroundColor = color;

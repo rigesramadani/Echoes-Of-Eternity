@@ -114,12 +114,20 @@ public class DSGraphView : GraphView {
     private void OnElementsDeleted() {
         deleteSelection = (operationName, askUser) => {
             Type groupType = typeof(DSGroup);
+            Type edgeType = typeof(Edge);
+            
             List<DSGroup> groupsToDelete = new List<DSGroup>();
+            List<Edge> edgesToDelete = new List<Edge>();
             List<DSNode> nodesToDelete = new List<DSNode>();
             
             foreach (GraphElement element in selection) {
                 if (element is DSNode node) {
                     nodesToDelete.Add(node);
+                }
+
+                if (element.GetType() == edgeType) {
+                    edgesToDelete.Add((Edge) element);
+                    continue;
                 }
 
                 if (element.GetType() != groupType) {
@@ -145,12 +153,15 @@ public class DSGraphView : GraphView {
                 RemoveGroup(group);
                 RemoveElement(group);
             }
+            
+            DeleteElements(edgesToDelete);
 
             foreach (DSNode node in nodesToDelete) {
                 if (node.group != null) {
                     node.group.RemoveElement(node);
                 }
                 RemoveUngroupedNode(node);
+                node.DisconnectAllPorts();
                 RemoveElement(node);
             }
         };
