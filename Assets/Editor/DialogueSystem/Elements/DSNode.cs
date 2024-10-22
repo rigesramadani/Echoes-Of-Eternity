@@ -11,7 +11,7 @@ namespace DS.Elements {
         public List<string> choices;
         public string dialogueText;
         public DSDialogueType dialogueType;
-        public Group group;
+        public DSGroup group;
         private DSGraphView graphView;
 
         public virtual void Initialize(DSGraphView graphView, Vector2 position) {
@@ -35,7 +35,7 @@ namespace DS.Elements {
                     return;
                 }
                 
-                Group currentGroup = group;
+                DSGroup currentGroup = group;
                 
                 graphView.RemoveGroupedNode(this, group);
                 dialogueName = callBack.newValue;

@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using DS.Elements;
 
 namespace DS.Data.Error {
-    public class DSNodeErrorData {
+    public class DSGroupErrorData {
         public DSErrorData ErrorData;
-        public List<DSNode> Nodes;
+        public List<DSGroup> Groups;
 
-        public DSNodeErrorData() {
+        public DSGroupErrorData() {
             ErrorData = new DSErrorData();
-            Nodes = new List<DSNode>();
+            Groups = new List<DSGroup>();
         }
     }
 }
