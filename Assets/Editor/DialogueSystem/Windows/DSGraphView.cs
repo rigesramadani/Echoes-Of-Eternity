@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using DS.Data.Error;
 using DS.Elements;
 using DS.Enums;
 using DS.Utilities;
@@ -9,9 +11,20 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class DSGraphView : GraphView {
+    private SerializableDictionary<string, DSNodeErrorData> ungroupedNodes;
+    private SerializableDictionary<Group, SerializableDictionary<string, DSNodeErrorData>> groupedNodes;
+    
     public DSGraphView() {
+        ungroupedNodes = new SerializableDictionary<string, DSNodeErrorData>();
+        groupedNodes = new SerializableDictionary<Group, SerializableDictionary<string, DSNodeErrorData>>();
+        
         AddManipulators();
         AddGridBackground();
+        
+        OnElementsDeleted();
+        OnGroupElementsAdded();
+        OnGroupElementsRemoved();
+        
         AddStyles();
     }
 
@@ -83,9 +96,142 @@ public class DSGraphView : GraphView {
         Type nodeType = Type.GetType("DS.Elements.DS" + dialogueType + "Node");
 
         DSNode node = (DSNode)Activator.CreateInstance(nodeType);
-        node.Initialize(position);
+        node.Initialize(this, position);
         node.Draw();
 
+        AddUngroupedNode(node);
         return node;
+    }
+    
+    private void OnElementsDeleted() {
+        deleteSelection = (operationName, askUser) => {
+            List<DSNode> nodesToDelete = new List<DSNode>();
+            
+            foreach (GraphElement element in selection) {
+                if (element is DSNode node) {
+                    nodesToDelete.Add(node);
+                }
+            }
+
+            foreach (DSNode node in nodesToDelete) {
+                if (node.group != null) {
+                    node.group.RemoveElement(node);
+                }
+                RemoveUngroupedNode(node);
+                RemoveElement(node);
+            }
+        };
+    }
+
+    public void AddUngroupedNode(DSNode node) {
+        string nodeName = node.dialogueName;
+        
+        if (!ungroupedNodes.ContainsKey(nodeName)) {
+            DSNodeErrorData nodeErrorData = new DSNodeErrorData();
+            
+            nodeErrorData.Nodes.Add(node);
+            ungroupedNodes.Add(nodeName, nodeErrorData);
+            return;
+        }
+        
+        ungroupedNodes[nodeName].Nodes.Add(node);
+
+        
+        Color errorColor = ungroupedNodes[nodeName].ErrorData.color;
+        node.SetErrorColor(errorColor);
+
+        if (ungroupedNodes[nodeName].Nodes.Count == 2) {
+            ungroupedNodes[nodeName].Nodes[0].SetErrorColor(errorColor);
+        }
+    }
+
+    public void RemoveUngroupedNode(DSNode node) {
+        string nodeName = node.dialogueName;
+        ungroupedNodes[nodeName].Nodes.Remove(node);
+        node.ResetColor();
+
+        if (ungroupedNodes[nodeName].Nodes.Count == 1) {
+            ungroupedNodes[nodeName].Nodes[0].ResetColor();
+            return;
+        }
+
+        if (ungroupedNodes[nodeName].Nodes.Count == 0) {
+            ungroupedNodes.Remove(nodeName);
+        }
+    }
+
+    private void OnGroupElementsAdded() {
+        elementsAddedToGroup = (group, elements) => {
+            foreach (GraphElement element in elements) {
+                if (!(element is DSNode)) {
+                    continue;
+                }
+
+                DSNode node = (DSNode) element;
+                RemoveUngroupedNode(node);
+                AddGroupedNode(node, group);
+            }
+        };
+    }
+
+    private void OnGroupElementsRemoved() {
+        elementsRemovedFromGroup = (group, elements) => {
+            foreach (GraphElement element in elements) {
+                if (!(element is DSNode)) {
+                    continue;
+                }
+
+                DSNode node = (DSNode) element;
+                
+                RemoveGroupedNode(node, group);
+                AddUngroupedNode(node);
+            }
+        };
+    }
+
+    public void AddGroupedNode(DSNode node, Group group) {
+        string nodeName = node.dialogueName;
+        node.group = group;
+        
+        if (!groupedNodes.ContainsKey(group)) {
+            groupedNodes.Add(group, new SerializableDictionary<string, DSNodeErrorData>());
+        }
+
+        if (!groupedNodes[group].ContainsKey(nodeName)) {
+            DSNodeErrorData nodeErrorData = new DSNodeErrorData();
+            nodeErrorData.Nodes.Add(node);
+            groupedNodes[group].Add(nodeName, nodeErrorData);
+            return;
+        }
+
+        groupedNodes[group][nodeName].Nodes.Add(node);
+        Color errorColor = groupedNodes[group][nodeName].ErrorData.color;
+        node.SetErrorColor(errorColor);
+
+
+        if (groupedNodes[group][nodeName].Nodes.Count == 2) {
+            groupedNodes[group][nodeName].Nodes[0].SetErrorColor(errorColor);
+        }
+    }
+    
+    public void RemoveGroupedNode(DSNode node, Group group) {
+        string nodeName = node.dialogueName;
+        node.group = null;
+        
+        groupedNodes[group][nodeName].Nodes.Remove(node);
+        node.ResetColor();
+
+        if (groupedNodes[group][nodeName].Nodes.Count == 1) {
+            groupedNodes[group][nodeName].Nodes[0].ResetColor();
+            return;
+        }
+
+        if (groupedNodes[group][nodeName].Nodes.Count == 0) {
+            groupedNodes[group].Remove(nodeName);
+
+            if (groupedNodes[group].Count == 0) {
+                groupedNodes.Remove(group);
+            }
+        }
     }
 }

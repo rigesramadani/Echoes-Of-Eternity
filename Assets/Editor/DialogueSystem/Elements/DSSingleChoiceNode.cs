@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace DS.Elements {
     public class DSSingleChoiceNode : DSNode {
-        public override void Initialize(Vector2 position) {
-            base.Initialize(position);
+        public override void Initialize(DSGraphView graphView, Vector2 position) {
+            base.Initialize(graphView, position);
 
             dialogueType = DSDialogueType.SingleChoice;
             choices.Add("Next Dialogue");
