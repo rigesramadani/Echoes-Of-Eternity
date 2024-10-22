@@ -4,16 +4,35 @@ using DS.Data.Error;
 using DS.Elements;
 using DS.Enums;
 using DS.Utilities;
+using DS.Windows;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class DSGraphView : GraphView {
+    private DSEditorWindow editorWindow;
     private SerializableDictionary<string, DSNodeErrorData> ungroupedNodes;
     private SerializableDictionary<string, DSGroupErrorData> groups;
     private SerializableDictionary<Group, SerializableDictionary<string, DSNodeErrorData>> groupedNodes;
+    private int repeatedNamesAmount;
+
+    public int RepeatedNamesAmount {
+        get {
+            return repeatedNamesAmount;
+        }
+        set {
+            repeatedNamesAmount = value;
+
+            if (repeatedNamesAmount == 0) {
+                editorWindow.EnableSaveButton();
+            } else {
+                editorWindow.DisableSaveButton();
+            }
+        }
+    }
     
-    public DSGraphView() {
+    public DSGraphView(DSEditorWindow editorWindow) {
+        this.editorWindow = editorWindow;
         ungroupedNodes = new SerializableDictionary<string, DSNodeErrorData>();
         groups = new SerializableDictionary<string, DSGroupErrorData>();
         groupedNodes = new SerializableDictionary<Group, SerializableDictionary<string, DSNodeErrorData>>();
@@ -69,7 +88,7 @@ public class DSGraphView : GraphView {
     private IManipulator CreateGroupContextualMenu() {
         ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
             menuEvent => menuEvent.menu.AppendAction("Add Group",
-                actionEvent => CreateGroup("Dialogue Group", actionEvent.eventInfo.localMousePosition))
+                actionEvent => CreateGroup("DialogueGroup", actionEvent.eventInfo.localMousePosition))
         );
 
         return contextualMenuManipulator;
@@ -168,7 +187,7 @@ public class DSGraphView : GraphView {
     }
     
     private void AddGroup(DSGroup group) {
-        string groupName = group.title;
+        string groupName = group.title.ToLower();
 
         if (!groups.ContainsKey(groupName)) {
             DSGroupErrorData groupErrorData = new DSGroupErrorData();
@@ -182,16 +201,18 @@ public class DSGraphView : GraphView {
         group.SetErrorStyle(errorColor);
 
         if (groups[groupName].Groups.Count == 2) {
+            ++RepeatedNamesAmount;
             groups[groupName].Groups[0].SetErrorStyle(errorColor);
         }
     }
 
     private void RemoveGroup(DSGroup group) {
-        string groupName = group.oldTitle;
+        string groupName = group.oldTitle.ToLower();
         groups[groupName].Groups.Remove(group);
         group.ResetStyle();
 
         if (groups[groupName].Groups.Count == 1) {
+            --RepeatedNamesAmount;
             groups[groupName].Groups[0].ResetStyle();
         }
 
@@ -201,7 +222,7 @@ public class DSGraphView : GraphView {
     }
 
     public void AddUngroupedNode(DSNode node) {
-        string nodeName = node.dialogueName;
+        string nodeName = node.dialogueName.ToLower();
         
         if (!ungroupedNodes.ContainsKey(nodeName)) {
             DSNodeErrorData nodeErrorData = new DSNodeErrorData();
@@ -218,16 +239,18 @@ public class DSGraphView : GraphView {
         node.SetErrorColor(errorColor);
 
         if (ungroupedNodes[nodeName].Nodes.Count == 2) {
+            ++RepeatedNamesAmount;
             ungroupedNodes[nodeName].Nodes[0].SetErrorColor(errorColor);
         }
     }
 
     public void RemoveUngroupedNode(DSNode node) {
-        string nodeName = node.dialogueName;
+        string nodeName = node.dialogueName.ToLower();
         ungroupedNodes[nodeName].Nodes.Remove(node);
         node.ResetColor();
 
         if (ungroupedNodes[nodeName].Nodes.Count == 1) {
+            --RepeatedNamesAmount;
             ungroupedNodes[nodeName].Nodes[0].ResetColor();
             return;
         }
@@ -271,15 +294,16 @@ public class DSGraphView : GraphView {
     private void OnGroupRenamed() {
         groupTitleChanged = (group, newTitle) => {
             DSGroup dsGroup = (DSGroup) group;
+            dsGroup.title = newTitle.RemoveWhitespaces().RemoveSpecialCharacters();
             RemoveGroup(dsGroup);
             
-            dsGroup.oldTitle = newTitle;
+            dsGroup.oldTitle = dsGroup.title;
             AddGroup(dsGroup);
         };
     }
 
     public void AddGroupedNode(DSNode node, DSGroup group) {
-        string nodeName = node.dialogueName;
+        string nodeName = node.dialogueName.ToLower();
         node.group = group;
         
         if (!groupedNodes.ContainsKey(group)) {
@@ -299,18 +323,20 @@ public class DSGraphView : GraphView {
 
 
         if (groupedNodes[group][nodeName].Nodes.Count == 2) {
+            ++RepeatedNamesAmount;
             groupedNodes[group][nodeName].Nodes[0].SetErrorColor(errorColor);
         }
     }
     
     public void RemoveGroupedNode(DSNode node, Group group) {
-        string nodeName = node.dialogueName;
+        string nodeName = node.dialogueName.ToLower();
         node.group = null;
         
         groupedNodes[group][nodeName].Nodes.Remove(node);
         node.ResetColor();
 
         if (groupedNodes[group][nodeName].Nodes.Count == 1) {
+            --RepeatedNamesAmount;
             groupedNodes[group][nodeName].Nodes[0].ResetColor();
             return;
         }

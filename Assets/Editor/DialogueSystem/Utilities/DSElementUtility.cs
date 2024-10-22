@@ -5,9 +5,10 @@ using UnityEngine.UIElements;
 
 namespace DS.Utilities {
     public static class DSElementUtility {
-        public static TextField CreateTextField(string value = null, EventCallback<ChangeEvent<string>> onValueChanged = null) {
+        public static TextField CreateTextField(string value = null, string label = null, EventCallback<ChangeEvent<string>> onValueChanged = null) {
             TextField textField = new TextField();
             textField.value = value;
+            textField.label = label;
             
             if (onValueChanged != null) {
                 textField.RegisterValueChangedCallback(onValueChanged);
@@ -16,8 +17,8 @@ namespace DS.Utilities {
             return textField;
         }
 
-        public static TextField CreateTextArea(string value = null, EventCallback<ChangeEvent<string>> onValueChanged = null) {
-            TextField textArea = CreateTextField(value, onValueChanged);
+        public static TextField CreateTextArea(string value = null, string label = null, EventCallback<ChangeEvent<string>> onValueChanged = null) {
+            TextField textArea = CreateTextField(value, label, onValueChanged);
             textArea.multiline = true;
             
             return textArea;

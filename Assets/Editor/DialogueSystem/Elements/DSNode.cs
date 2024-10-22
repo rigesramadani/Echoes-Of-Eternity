@@ -15,7 +15,7 @@ namespace DS.Elements {
         private DSGraphView graphView;
 
         public virtual void Initialize(DSGraphView graphView, Vector2 position) {
-            dialogueName = "Dialogue Name";
+            dialogueName = "DialogueName";
             choices = new List<string>();
             dialogueText = "Dialogue Text";
             this.graphView = graphView;
@@ -27,10 +27,13 @@ namespace DS.Elements {
         }
 
         public virtual void Draw() {
-            TextField dialogueTextField = DSElementUtility.CreateTextField(dialogueName, callBack => {
+            TextField dialogueTextField = DSElementUtility.CreateTextField(dialogueName, null, callBack => {
+                TextField target = (TextField) callBack.target;
+                target.value = callBack.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
+                
                 if (group == null) {
                     graphView.RemoveUngroupedNode(this);
-                    dialogueName = callBack.newValue;
+                    dialogueName = target.value;
                     graphView.AddUngroupedNode(this);
                     return;
                 }
@@ -38,7 +41,7 @@ namespace DS.Elements {
                 DSGroup currentGroup = group;
                 
                 graphView.RemoveGroupedNode(this, group);
-                dialogueName = callBack.newValue;
+                dialogueName = target.value;
                 graphView.AddGroupedNode(this, currentGroup);
             });
             
