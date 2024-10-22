@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using DS.Data.Error;
 using DS.Elements;
 using DS.Enums;
 using DS.Utilities;
-using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -71,16 +69,25 @@ public class DSGraphView : GraphView {
     private IManipulator CreateGroupContextualMenu() {
         ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
             menuEvent => menuEvent.menu.AppendAction("Add Group",
-                actionEvent => AddElement(CreateGroup("Dialogue Group", actionEvent.eventInfo.localMousePosition)))
+                actionEvent => CreateGroup("Dialogue Group", actionEvent.eventInfo.localMousePosition))
         );
 
         return contextualMenuManipulator;
     }
 
-    private DSGroup CreateGroup(string title, Vector2 eventInfoLocalMousePosition) {
+    private void CreateGroup(string title, Vector2 eventInfoLocalMousePosition) {
         DSGroup group = new DSGroup(title, eventInfoLocalMousePosition);
         AddGroup(group);
-        return group;
+        AddElement(group);
+
+        foreach (GraphElement selectedElement in selection) {
+            if (!(selectedElement is DSNode)) {
+                continue;
+            }
+            
+            DSNode node = (DSNode) selectedElement;
+            group.AddElement(node);
+        }
     }
 
     private void AddGridBackground() {
@@ -120,11 +127,22 @@ public class DSGraphView : GraphView {
                 }
                 
                 DSGroup group = (DSGroup) element;
-                RemoveGroup(group);
                 groupsToDelete.Add(group);
             }
 
             foreach (DSGroup group in groupsToDelete) {
+                List<DSNode> groupNodes = new List<DSNode>();
+                
+                foreach (GraphElement groupElement in group.containedElements) {
+                    if (!(groupElement is DSNode)) {
+                        continue;
+                    }
+                    
+                    groupNodes.Add((DSNode) groupElement);
+                }
+                
+                group.RemoveElements(groupNodes);
+                RemoveGroup(group);
                 RemoveElement(group);
             }
 
