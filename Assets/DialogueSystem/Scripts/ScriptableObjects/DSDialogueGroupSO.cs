@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace DS.ScriptableObjects {
-    public class DSDialogueGroup : ScriptableObject {
+    public class DSDialogueGroupSO : ScriptableObject {
         public string groupName;
 
         public void Initialize(string groupName) {

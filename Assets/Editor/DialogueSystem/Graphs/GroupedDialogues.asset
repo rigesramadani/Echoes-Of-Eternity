@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a22c2dc02db46119dcf4f381d139db, type: 3}
+  m_Name: GroupedDialogues
+  m_EditorClassIdentifier: 
+  fileName: GroupedDialogues
+  groups:
+  - id: 80f8ff00-3a3b-4582-b10a-aec40229a7ed
+    name: DialogueGroup1
+    position: {x: 71, y: 138}
+  - id: 6750fe62-6d0c-4206-82cc-f744c04c7527
+    name: DialogueGroup2
+    position: {x: 414, y: 195}
+  nodes:
+  - id: 16c60159-9c7a-4eb7-ad60-b8be90cb2a16
+    name: Dialogue1
+    text: Dialogue Text
+    choices:
+    - text: Next Dialogue
+      nodeId: 
+    groupId: 80f8ff00-3a3b-4582-b10a-aec40229a7ed
+    dialogueType: 0
+    position: {x: 96, y: 196.5}
+  - id: 992b1104-4418-4986-af73-f9b100170c7e
+    name: Dialogue2
+    text: Dialogue Text
+    choices:
+    - text: Next Dialogue
+      nodeId: b7dc6f1a-4d93-4a12-b91c-4015b0d98499
+    groupId: 6750fe62-6d0c-4206-82cc-f744c04c7527
+    dialogueType: 0
+    position: {x: 439, y: 253.5}
+  - id: b7dc6f1a-4d93-4a12-b91c-4015b0d98499
+    name: Dialogue3
+    text: Dialogue Text
+    choices:
+    - text: Next Dialogue
+      nodeId: 
+    groupId: 6750fe62-6d0c-4206-82cc-f744c04c7527
+    dialogueType: 0
+    position: {x: 776, y: 253.5}
+  oldGroupNames:
+  - DialogueGroup1
+  - DialogueGroup2
+  oldUngroupedNames: []
+  oldGroupedNames:
+    m_keys:
+    - DialogueGroup1
+    - DialogueGroup2

@@ -4,7 +4,7 @@ using DS.Enums;
 using UnityEngine;
 
 namespace DS.ScriptableObjects {
-    public class DSDialogue : ScriptableObject {
+    public class DSDialogueSO : ScriptableObject {
         public string dialogueName;
         [TextArea] public string dialogueText;
         public List<DSDialogueChoiceData> choices;
