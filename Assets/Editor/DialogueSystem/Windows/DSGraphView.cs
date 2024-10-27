@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DS.Data.Error;
+using DS.Data.Save;
 using DS.Elements;
 using DS.Enums;
 using DS.Utilities;
@@ -14,16 +15,16 @@ public class DSGraphView : GraphView {
     private SerializableDictionary<string, DSNodeErrorData> ungroupedNodes;
     private SerializableDictionary<string, DSGroupErrorData> groups;
     private SerializableDictionary<Group, SerializableDictionary<string, DSNodeErrorData>> groupedNodes;
-    private int repeatedNamesAmount;
+    private int nameErrorsAmount;
 
     public int RepeatedNamesAmount {
         get {
-            return repeatedNamesAmount;
+            return nameErrorsAmount;
         }
         set {
-            repeatedNamesAmount = value;
+            nameErrorsAmount = value;
 
-            if (repeatedNamesAmount == 0) {
+            if (nameErrorsAmount == 0) {
                 editorWindow.EnableSaveButton();
             } else {
                 editorWindow.DisableSaveButton();
@@ -44,6 +45,7 @@ public class DSGraphView : GraphView {
         OnGroupElementsAdded();
         OnGroupElementsRemoved();
         OnGroupRenamed();
+        OnGraphViewChanged();
         
         AddStyles();
     }
@@ -79,7 +81,7 @@ public class DSGraphView : GraphView {
     private IManipulator CreateNodeContextualMenu(string actionTitle, DSDialogueType dialogueType) {
         ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
             menuEvent => menuEvent.menu.AppendAction(actionTitle,
-                actionEvent => AddElement(CreateNode(dialogueType, actionEvent.eventInfo.localMousePosition)))
+                actionEvent => AddElement(CreateNode("DialogueName", dialogueType, actionEvent.eventInfo.localMousePosition)))
         );
 
         return contextualMenuManipulator;
@@ -94,7 +96,7 @@ public class DSGraphView : GraphView {
         return contextualMenuManipulator;
     }
 
-    private void CreateGroup(string title, Vector2 eventInfoLocalMousePosition) {
+    public DSGroup CreateGroup(string title, Vector2 eventInfoLocalMousePosition) {
         DSGroup group = new DSGroup(title, eventInfoLocalMousePosition);
         AddGroup(group);
         AddElement(group);
@@ -107,6 +109,8 @@ public class DSGraphView : GraphView {
             DSNode node = (DSNode) selectedElement;
             group.AddElement(node);
         }
+        
+        return group;
     }
 
     private void AddGridBackground() {
@@ -119,12 +123,15 @@ public class DSGraphView : GraphView {
         this.AddStyleSheets("DialogueSystem/DSGraphViewStyles.uss", "DialogueSystem/DSNodeStyles.uss");
     }
 
-    private DSNode CreateNode(DSDialogueType dialogueType, Vector2 position) {
+    public DSNode CreateNode(string nodeName, DSDialogueType dialogueType, Vector2 position, bool shouldDraw = true) {
         Type nodeType = Type.GetType("DS.Elements.DS" + dialogueType + "Node");
 
-        DSNode node = (DSNode)Activator.CreateInstance(nodeType);
-        node.Initialize(this, position);
-        node.Draw();
+        DSNode node = (DSNode) Activator.CreateInstance(nodeType);
+        node.Initialize(nodeName, this, position);
+
+        if (shouldDraw) {
+            node.Draw();
+        }
 
         AddUngroupedNode(node);
         return node;
@@ -295,6 +302,17 @@ public class DSGraphView : GraphView {
         groupTitleChanged = (group, newTitle) => {
             DSGroup dsGroup = (DSGroup) group;
             dsGroup.title = newTitle.RemoveWhitespaces().RemoveSpecialCharacters();
+            
+            if (string.IsNullOrEmpty(dsGroup.title)) {
+                if (!string.IsNullOrEmpty(dsGroup.oldTitle)) {
+                    ++RepeatedNamesAmount;
+                }
+            } else {
+                if (string.IsNullOrEmpty(dsGroup.oldTitle)) {
+                    --RepeatedNamesAmount;
+                }
+            }
+            
             RemoveGroup(dsGroup);
             
             dsGroup.oldTitle = dsGroup.title;
@@ -348,5 +366,43 @@ public class DSGraphView : GraphView {
                 groupedNodes.Remove(group);
             }
         }
+    }
+
+    private void OnGraphViewChanged() {
+        graphViewChanged = changes => {
+            if (changes.edgesToCreate != null) {
+                foreach (Edge edge in changes.edgesToCreate) {
+                    DSNode nextNode = (DSNode) edge.input.node;
+                    DSChoiceSaveData choiceData = (DSChoiceSaveData) edge.output.userData;
+                    choiceData.nodeId = nextNode.id;
+                }
+            }
+
+            if (changes.elementsToRemove != null) {
+                Type edgeType = typeof(Edge);
+
+                foreach (GraphElement element in changes.elementsToRemove) {
+                    if (element.GetType() != edgeType) {
+                        continue;
+                    }
+                    
+                    Edge edge = (Edge) element;
+                    DSChoiceSaveData choiceData = (DSChoiceSaveData) edge.output.userData;
+                    choiceData.nodeId = "";
+                }
+            }
+
+            return changes;
+        };
+    }
+
+    public void ClearGraph() {
+        graphElements.ForEach(element => RemoveElement(element));
+        
+        groups.Clear();
+        groupedNodes.Clear();
+        ungroupedNodes.Clear();
+
+        nameErrorsAmount = 0;
     }
 }
