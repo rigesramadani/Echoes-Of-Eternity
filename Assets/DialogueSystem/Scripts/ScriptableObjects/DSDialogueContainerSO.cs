@@ -12,5 +12,44 @@ namespace DS.ScriptableObjects {
             dialogueGroups = new SerializableDictionary<DSDialogueGroupSO, List<DSDialogueSO>>();
             ungroupedDialogues = new List<DSDialogueSO>();
         }
+
+        public List<string> GetGroupNames() {
+            List<string> groupNames = new List<string>();
+            
+            foreach (DSDialogueGroupSO dialogueGroup in dialogueGroups.Keys) {
+                groupNames.Add(dialogueGroup.groupName);
+            }
+            
+            return groupNames;
+        }
+
+        public List<string> GetGroupedDialogueNames(DSDialogueGroupSO dialogueGroup, bool startingDialoguesOnly) {
+            List<DSDialogueSO> groupedDialogues = dialogueGroups[dialogueGroup];
+            List<string> groupedDialogueNames = new List<string>();
+            
+            foreach (DSDialogueSO groupedDialogue in groupedDialogues) {
+                if (startingDialoguesOnly && !groupedDialogue.isStartingDialogue) {
+                    continue;
+                }
+                
+                groupedDialogueNames.Add(groupedDialogue.dialogueName);
+            }
+            
+            return groupedDialogueNames;
+        }
+        
+        public List<string> GetUngroupedNames(bool startingDialoguesOnly) {
+            List<string> ungroupedDialogueNames = new List<string>();
+            
+            foreach (DSDialogueSO ungroupedDialogue in ungroupedDialogues) {
+                if (startingDialoguesOnly && !ungroupedDialogue.isStartingDialogue) {
+                    continue;
+                }
+                
+                ungroupedDialogueNames.Add(ungroupedDialogue.dialogueName);
+            }
+            
+            return ungroupedDialogueNames;
+        }
     }
 }

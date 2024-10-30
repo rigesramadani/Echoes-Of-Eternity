@@ -151,12 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188227748c34042e89ef17c8fbd2537b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueContainer: {fileID: 0}
-  dialogueGroup: {fileID: 0}
-  dialogue: {fileID: 0}
-  groupedDialogues: 0
+  dialogueContainer: {fileID: 11400000, guid: 3f0a8bbdf147d4800934ef5c05c4d9db, type: 2}
+  dialogueGroup: {fileID: 11400000, guid: 712275a61c9a9428c8b28d88f34f5082, type: 2}
+  dialogue: {fileID: 11400000, guid: bc537e3c257364b759469f400eabdaba, type: 2}
+  groupedDialogues: 1
   startingDialoguesOnly: 0
-  selectedDialogueGroupIndex: 0
+  selectedDialogueGroupIndex: 2
   selectedDialogueIndex: 0
 --- !u!4 &42341118
 Transform:

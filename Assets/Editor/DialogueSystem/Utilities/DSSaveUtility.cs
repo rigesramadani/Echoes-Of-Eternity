@@ -61,7 +61,7 @@ namespace DS.Utility {
             CreateFolder(containerFolderPath + "/Global", "Dialogues");
         }
         
-        private static void CreateFolder(string path, string folderName){
+        public static void CreateFolder(string path, string folderName){
             if (AssetDatabase.IsValidFolder(path + "/" + folderName)) {
                 return;
             }
@@ -84,7 +84,7 @@ namespace DS.Utility {
             });
         }
 
-        private static T CreateAsset<T>(string path, string assetName) where T : ScriptableObject {
+        public static T CreateAsset<T>(string path, string assetName) where T : ScriptableObject {
             string fullPath = path + "/" + assetName + ".asset";
             T asset = LoadAsset<T>(path, assetName);
 
@@ -129,7 +129,7 @@ namespace DS.Utility {
             SaveAsset(dialogueGroup);
         }
 
-        private static void SaveAsset(Object asset) {
+        public static void SaveAsset(Object asset) {
             EditorUtility.SetDirty(asset);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -239,7 +239,7 @@ namespace DS.Utility {
             graphData.oldGroupNames = new List<string>(currentGroupNames);
         }
 
-        private static void RemoveFolder(string path) {
+        public static void RemoveFolder(string path) {
             FileUtil.DeleteFileOrDirectory(path + ".meta/");
             FileUtil.DeleteFileOrDirectory(path + "/");
         }
@@ -255,7 +255,7 @@ namespace DS.Utility {
             graphData.oldUngroupedNames = new List<string>(currentUngroupedNodeNames);
         }
 
-        private static void RemoveAsset(string path, string assetName) {
+        public static void RemoveAsset(string path, string assetName) {
             AssetDatabase.DeleteAsset(path + "/" + assetName + ".asset");
         }
         
@@ -340,7 +340,7 @@ namespace DS.Utility {
             }
         }
         
-        private static T LoadAsset<T>(string path, string assetName) where T : ScriptableObject {
+        public static T LoadAsset<T>(string path, string assetName) where T : ScriptableObject {
             string fullPath = path + "/" + assetName + ".asset";
             return AssetDatabase.LoadAssetAtPath<T>(fullPath);
         }
