@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec6bbbe839064b42b274b07db607aa1, type: 3}
+  m_Name: CapsuleDialogue
+  m_EditorClassIdentifier: 
+  fileName: CapsuleDialogue
+  dialogueGroups:
+    list:
+    - Key: {fileID: 11400000, guid: bfe5a643d7bfe4f629d48811f4a7bcc1, type: 2}
+      Value:
+      - {fileID: 11400000, guid: fd3d1920686fd4de295b4d9ac22116a6, type: 2}
+      - {fileID: 11400000, guid: db09ad3681e5448b38e00830169d7a2d, type: 2}
+      - {fileID: 11400000, guid: 8915e15d0ec0f4b0aa003a407530c22e, type: 2}
+    - Key: {fileID: 11400000, guid: c1d5303e379fb4b4e81ba4d3c7613371, type: 2}
+      Value:
+      - {fileID: 11400000, guid: 79afd94034ab4479a99f9381ce10ed68, type: 2}
+      - {fileID: 11400000, guid: e8ba03daeb3e044be9ea18bd8664a3df, type: 2}
+  ungroupedDialogues: []

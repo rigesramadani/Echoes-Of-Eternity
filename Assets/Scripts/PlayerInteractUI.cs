@@ -5,9 +5,10 @@ public class PlayerInteractUI : MonoBehaviour {
     [SerializeField] private GameObject container;
     [SerializeField] private PlayerInteract playerInteract;
     [SerializeField] private TextMeshProUGUI interactionText;
+    [SerializeField] private DialogueUI dialogueUI;
 
     private void Update() {
-        if (playerInteract.getInteractable() != null) {
+        if (playerInteract.getInteractable() != null && !dialogueUI.GetHasDialogueStarted()) {
             Show(playerInteract.getInteractable());
         } else {
             Hide();
@@ -22,6 +23,4 @@ public class PlayerInteractUI : MonoBehaviour {
     private void Hide() {
         container.SetActive(false);
     }
-    
-    
 }

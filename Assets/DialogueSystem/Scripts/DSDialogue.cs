@@ -10,5 +10,17 @@ namespace DS {
         [SerializeField] private bool startingDialoguesOnly;
         [SerializeField] private int selectedDialogueGroupIndex;
         [SerializeField] private int selectedDialogueIndex;
+
+        public DSDialogueContainerSO GetDialogueContainer() {
+            return dialogueContainer;
+        }
+        
+        public DSDialogueGroupSO GetDialogueGroup() {
+            return dialogueGroup;
+        }
+        
+        public DSDialogueSO GetDialogue() {
+            return dialogue;
+        }
     }
 }
