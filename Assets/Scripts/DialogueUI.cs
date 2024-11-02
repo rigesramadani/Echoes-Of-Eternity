@@ -12,10 +12,10 @@ public class DialogueUI : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI characterName;
     [SerializeField] private GameObject panel;
     private DSDialogue dialogue;
-    private bool hasDialogueStarted;
+    private bool dialogueActive;
     
     private void Update() {
-        if (hasDialogueStarted) {
+        if (dialogueActive) {
             Show();
             CheckDialogueInput();
         } else {
@@ -32,7 +32,7 @@ public class DialogueUI : MonoBehaviour {
     }
 
     public void StartDialogue(string characterName, DSDialogue dialogue) {
-        hasDialogueStarted = true;
+        dialogueActive = true;
         this.dialogue = dialogue;
         this.characterName.text = characterName;
         DSDialogueSO currentDialogue = dialogue.GetDialogue();
@@ -50,7 +50,7 @@ public class DialogueUI : MonoBehaviour {
     }
 
     public bool GetHasDialogueStarted() {
-        return hasDialogueStarted;
+        return dialogueActive;
     }
     
     private void CheckDialogueInput() {
@@ -64,5 +64,33 @@ public class DialogueUI : MonoBehaviour {
     
     private void OnChoiceSelected(int choiceIndex) {
         DSDialogueChoiceData selectedChoice = dialogue.GetDialogue().choices[choiceIndex];
+        DSDialogueSO nextDialogue = selectedChoice.nextDialogue;
+        DSDialogueContainerSO dialogueContainer = dialogue.GetDialogueContainer();
+        List<DSDialogueGroupSO> groups = dialogueContainer.GetGroups();
+
+        if (nextDialogue == null) {
+            dialogueActive = false;
+
+            foreach (DSDialogueGroupSO group in groups) {
+                List<DSDialogueSO> dialogues = dialogueContainer.GetGroupDialogues(group);
+                foreach (DSDialogueSO dialogue in dialogues) {
+                    if (dialogue.isStartingDialogue) {
+                        this.dialogue.SetDSDialogueSO(dialogue);
+                        this.dialogue.SetDSDialogueGroupSO(group);
+                        return;
+                    }
+                }
+            }
+        }
+
+        foreach (DSDialogueGroupSO group in groups) {
+            List<DSDialogueSO> dialogues = dialogueContainer.GetGroupDialogues(group);
+            if (dialogues.Contains(nextDialogue)) {
+                dialogue.SetDSDialogueSO(nextDialogue);
+                dialogue.SetDSDialogueGroupSO(group);
+                StartDialogue(group.groupName, dialogue);
+                return;
+            }
+        }
     }
 }

@@ -51,5 +51,19 @@ namespace DS.ScriptableObjects {
             
             return ungroupedDialogueNames;
         }
+
+        public List<DSDialogueGroupSO> GetGroups() {
+            List<DSDialogueGroupSO> groups = new List<DSDialogueGroupSO>();
+
+            foreach (DSDialogueGroupSO dialogueGroup in dialogueGroups.Keys) {
+                groups.Add(dialogueGroup);
+            }
+            
+            return groups;
+        }
+
+        public List<DSDialogueSO> GetGroupDialogues(DSDialogueGroupSO group) {
+            return dialogueGroups[group];
+        }
     }
 }

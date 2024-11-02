@@ -22,5 +22,13 @@ namespace DS {
         public DSDialogueSO GetDialogue() {
             return dialogue;
         }
+
+        public void SetDSDialogueSO(DSDialogueSO dialogue) {
+            this.dialogue = dialogue;
+        }
+        
+        public void SetDSDialogueGroupSO(DSDialogueGroupSO dialogueGroup) {
+            this.dialogueGroup = dialogueGroup;
+        }
     }
 }
