@@ -18,9 +18,7 @@ public class DSGraphView : GraphView {
     private int nameErrorsAmount;
 
     public int RepeatedNamesAmount {
-        get {
-            return nameErrorsAmount;
-        }
+        get => nameErrorsAmount;
         set {
             nameErrorsAmount = value;
 
