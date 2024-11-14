@@ -8,7 +8,7 @@ public class AsyncLoader : MonoBehaviour {
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private Slider loadingSlider;
 
-    public void LoadLevelBtn(string levelToLoad) {
+    public void LoadLevel(string levelToLoad) {
         mainMenu.SetActive(false);
         loadingScreen.SetActive(true);
         StartCoroutine(LoadLevelAsync(levelToLoad));

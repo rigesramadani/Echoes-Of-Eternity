@@ -1,66 +1,40 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
-public class MenuController : MonoBehaviour
-{
-    private UIDocument document;
-    private VisualElement container;
-    private Button startButton;
-    private Button controlsButton;
-    private Button aboutButton;
-    private Button quitButton;
-    private VisualElement controlsElements;
-    private VisualElement aboutElements;
-    public VisualTreeAsset controlsPage;
-    public VisualTreeAsset aboutPage;
+public class MenuController : MonoBehaviour {
+    [SerializeField] private GameObject mainPanel;
+    [SerializeField] private GameObject controlsPanel;
+    [SerializeField] private GameObject aboutPanel;
+    private GameObject currentPanel;
+
+    public void GoToControlsPage() {
+        if (currentPanel != null) {
+            currentPanel.SetActive(false);
+        } else {
+            mainPanel.SetActive(false);
+        }
+        
+        controlsPanel.SetActive(true);
+        currentPanel = controlsPanel;
+    }
     
-    void Start() {
-        document = GetComponent<UIDocument>();
-        container = document.rootVisualElement.Q<VisualElement>("Container");
-        startButton = document.rootVisualElement.Q<Button>("StartButton");
-        controlsButton = document.rootVisualElement.Q<Button>("ControlsButton");
-        aboutButton = document.rootVisualElement.Q<Button>("AboutButton");
-        quitButton = document.rootVisualElement.Q<Button>("QuitButton");
+    public void GoToAboutPage() {
+        if (currentPanel != null) {
+            currentPanel.SetActive(false);
+        } else {
+            mainPanel.SetActive(false);
+        }
         
-        startButton.clicked += StartButtonClicked;
-        controlsButton.clicked += ControlsButtonClicked;
-        aboutButton.clicked += AboutButtonClicked;
-        quitButton.clicked += QuitButtonClicked;
-        
-        aboutElements = aboutPage.CloneTree();
-        controlsElements = controlsPage.CloneTree();
-        
-        var backButtonControls = controlsElements.Q<Button>("BackButton");
-        backButtonControls.clicked += BackButtonClicked;
-        
-        var backButtonAbout = aboutElements.Q<Button>("BackButton");
-        backButtonAbout.clicked += BackButtonClicked;
+        aboutPanel.SetActive(true);
+        currentPanel = aboutPanel;
     }
 
-    private void StartButtonClicked() {
-        SceneManager.LoadScene("Graveyard");
+    public void GoBackToMainPage() {
+        currentPanel.SetActive(false);
+        mainPanel.SetActive(true);
+        currentPanel = mainPanel;
     }
-    
-    private void AboutButtonClicked() {
-        container.Clear();
-        container.Add(aboutElements);
-    }
-    
-    private void ControlsButtonClicked() {
-        container.Clear();
-        container.Add(controlsElements);
-    }
-    
-    private void QuitButtonClicked() {
+
+    public void QuitGame() {
         Application.Quit();
-    }
-    
-    private void BackButtonClicked() {
-        container.Clear();
-        container.Add(startButton);
-        container.Add(controlsButton);
-        container.Add(aboutButton);
-        container.Add(quitButton);
     }
 }
