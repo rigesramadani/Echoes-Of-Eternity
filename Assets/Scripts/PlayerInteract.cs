@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour {
     public void Update() {
-        if (Input.GetKeyDown(KeyCode.E)) {
+        if (Input.GetKeyDown(KeyCode.E) && !PauseMenuController.isGamePaused) {
             InteractableInterface interactable = getInteractable();
             if (interactable != null) {
                 interactable.Interact();

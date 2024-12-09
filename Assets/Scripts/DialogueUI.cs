@@ -55,7 +55,7 @@ public class DialogueUI : MonoBehaviour {
     
     private void CheckDialogueInput() {
         for (int i = 0; i < dialogue.GetDialogue().choices.Count; i++) {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i)) {
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i) && !PauseMenuController.isGamePaused) {
                 OnChoiceSelected(i);
                 return;
             }

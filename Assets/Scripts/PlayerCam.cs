@@ -13,14 +13,21 @@ public class PlayerCam : MonoBehaviour {
     }
 
     void Update() {
-        float mouseX = Input.GetAxis("Mouse X") * sensitivityX;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivityY;
+        if (PauseMenuController.isGamePaused) {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        } else {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            float mouseX = Input.GetAxis("Mouse X") * sensitivityX;
+            float mouseY = Input.GetAxis("Mouse Y") * sensitivityY;
         
-        xRotation -= mouseY;
-        yRotation += mouseX;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            xRotation -= mouseY;
+            yRotation += mouseX;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+        }
     }
 }
