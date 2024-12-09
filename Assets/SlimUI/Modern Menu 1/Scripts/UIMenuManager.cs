@@ -6,9 +6,7 @@ namespace SlimUI.ModernMenu {
         private static readonly int Animate = Animator.StringToHash("Animate");
         private Animator camera;
 
-        [Header("MENUS")] [Tooltip("The Menu for when the MAIN menu buttons")]
-        public GameObject mainMenu;
-
+        [Header("MENUS")] 
         [Tooltip("THe first list of buttons")] public GameObject firstMenu;
 
         [Tooltip("The Menu for when the PLAY button is clicked")]
@@ -52,7 +50,6 @@ namespace SlimUI.ModernMenu {
             playMenu.SetActive(false);
             exitMenu.SetActive(false);
             firstMenu.SetActive(true);
-            mainMenu.SetActive(true);
 
             SetThemeColors();
         }
@@ -88,7 +85,6 @@ namespace SlimUI.ModernMenu {
         public void ReturnMenu() {
             playMenu.SetActive(false);
             exitMenu.SetActive(false);
-            mainMenu.SetActive(true);
         }
 
         public void GoToSettings() {

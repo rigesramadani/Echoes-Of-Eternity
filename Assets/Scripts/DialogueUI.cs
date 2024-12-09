@@ -42,7 +42,7 @@ public class DialogueUI : MonoBehaviour {
             if (i < currentDialogue.choices.Count) {
                 choicesButtons[i].gameObject.SetActive(true);
                 TextMeshProUGUI choiceText = choicesButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-                choiceText.text = currentDialogue.choices[i].text;
+                choiceText.text = (i + 1) + ".  " + currentDialogue.choices[i].text;
             } else {
                 choicesButtons[i].gameObject.SetActive(false);
             }
