@@ -45,6 +45,7 @@ public class PauseMenuController : MonoBehaviour {
         mainMenuConfirmationPanel.SetActive(false);
 
         SceneManager.LoadScene("MainMenu");
+        ResumeGame();
     } 
 
     public void NoMainMenuConfirmation() {

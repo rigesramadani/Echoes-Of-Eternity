@@ -48,6 +48,9 @@ public class MenuController : MonoBehaviour {
         playMenu.SetActive(false);
         exitMenu.SetActive(false);
         firstMenu.SetActive(true);
+        
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         SetThemeColors();
     }
