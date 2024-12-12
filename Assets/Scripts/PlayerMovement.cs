@@ -1,36 +1,43 @@
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
-    [Header("Movement")] 
-    [SerializeField] private float speed;
-    [SerializeField] private float deceleration;
-    [SerializeField] private Transform orientation;
-    private float horizontalInput;
-    private float verticalInput;
-    private Vector3 movementDirection;
-    private Rigidbody rigidbody;
+    [Header("Movement")] public float speed;
+    public float deceleration;
+    public Transform orientation;
+    float horizontalInput;
+    float verticalInput;
+    Vector3 movementDirection;
+    Rigidbody rb;
 
     void Start() {
-        rigidbody = GetComponent<Rigidbody>();
-        rigidbody.freezeRotation = true;
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
     }
 
     void Update() {
+        MyInput();
+    }
+
+    private void FixedUpdate() {
+        MovePlayer();
+    }
+
+    private void MyInput() {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
     }
 
-    private void FixedUpdate() {
+    private void MovePlayer() {
         if (horizontalInput == 0 && verticalInput == 0) {
-            rigidbody.velocity = new Vector3(
-                Mathf.Lerp(rigidbody.velocity.x, 0, deceleration * Time.deltaTime),
-                rigidbody.velocity.y,
-                Mathf.Lerp(rigidbody.velocity.z, 0, deceleration * Time.deltaTime)
+            rb.velocity = new Vector3(
+                Mathf.Lerp(rb.velocity.x, 0, deceleration * Time.deltaTime),
+                rb.velocity.y,
+                Mathf.Lerp(rb.velocity.z, 0, deceleration * Time.deltaTime)
             );
         }
         else {
             movementDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-            rigidbody.AddForce(movementDirection * (speed * 10f), ForceMode.Force);
+            rb.AddForce(movementDirection * (speed * 10f), ForceMode.Force);
         }
     }
 }
