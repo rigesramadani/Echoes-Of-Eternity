@@ -54,7 +54,7 @@ public class MenuController : MonoBehaviour {
         SetThemeColors();
     }
 
-    void SetThemeColors() {
+    private void SetThemeColors() {
         switch (theme) {
             case Theme.custom1:
                 themeController.currentColor = themeController.custom1.graphic1;
@@ -93,7 +93,7 @@ public class MenuController : MonoBehaviour {
         cameraAnimator.SetFloat(Animate, 0);
     }
 
-    void DisablePanels() {
+    private void DisablePanels() {
         controlsPanel.SetActive(false);
         audioPanel.SetActive(false);
 
