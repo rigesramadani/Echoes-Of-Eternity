@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
     private static readonly int Animate = Animator.StringToHash("Animate");
-    private Animator camera;
+    private Animator cameraAnimator;
 
     [Header("MENUS")] [Tooltip("THe first list of buttons")]
     public GameObject firstMenu;
@@ -21,7 +21,6 @@ public class MenuController : MonoBehaviour {
     };
 
     [Header("THEME SETTINGS")] public Theme theme;
-    private int themeIndex;
     public ThemedUIData themeController;
 
     [Header("PANELS")] [Tooltip("The UI Panel that holds the CONTROLS window tab")]
@@ -42,7 +41,7 @@ public class MenuController : MonoBehaviour {
     public AudioSource hoverSound;
 
     void Start() {
-        camera = transform.GetComponent<Animator>();
+        cameraAnimator = transform.GetComponent<Animator>();
         musicSlider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("Volume");
 
         playMenu.SetActive(false);
@@ -60,17 +59,14 @@ public class MenuController : MonoBehaviour {
             case Theme.custom1:
                 themeController.currentColor = themeController.custom1.graphic1;
                 themeController.textColor = themeController.custom1.text1;
-                themeIndex = 0;
                 break;
             case Theme.custom2:
                 themeController.currentColor = themeController.custom2.graphic2;
                 themeController.textColor = themeController.custom2.text2;
-                themeIndex = 1;
                 break;
             case Theme.custom3:
                 themeController.currentColor = themeController.custom3.graphic3;
                 themeController.textColor = themeController.custom3.text3;
-                themeIndex = 2;
                 break;
             default:
                 Debug.Log("Invalid theme selected.");
@@ -90,11 +86,11 @@ public class MenuController : MonoBehaviour {
 
     public void GoToSettings() {
         playMenu.SetActive(false);
-        camera.SetFloat(Animate, 1);
+        cameraAnimator.SetFloat(Animate, 1);
     }
 
     public void GoToMainPage() {
-        camera.SetFloat(Animate, 0);
+        cameraAnimator.SetFloat(Animate, 0);
     }
 
     void DisablePanels() {
