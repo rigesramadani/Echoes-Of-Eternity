@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5751925e38c574f098942543d1385857, type: 3}
+  m_Name: Dialogue2
+  m_EditorClassIdentifier: 
+  dialogueName: Dialogue2
+  dialogueText: I know. He mentioned to me earlier that day about a car parked near
+    the old oak. Said it gave him an odd feeling.
+  choices:
+  - text: Next Dialogue
+    nextDialogue: {fileID: 11400000, guid: e8dc6851c73504a69a34c7a7144f6af5, type: 2}
+  dialogueType: 0
+  isStartingDialogue: 0

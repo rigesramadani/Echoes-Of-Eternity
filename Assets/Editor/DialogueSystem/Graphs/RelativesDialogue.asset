@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a22c2dc02db46119dcf4f381d139db, type: 3}
+  m_Name: RelativesDialogue
+  m_EditorClassIdentifier: 
+  fileName: RelativesDialogue
+  groups:
+  - id: 0528af25-a0b2-4668-a4ba-01eb7967edb6
+    name: Relative1
+    position: {x: -114.5, y: 76.5}
+  - id: d96ff839-e08a-4823-9bac-ca5936380cf3
+    name: Relative2
+    position: {x: 671.5, y: 474.5}
+  nodes:
+  - id: a2dfd5dd-42a7-47a0-9fee-8c354bfc0ccc
+    name: Dialogue1
+    text: "I can\u2019t believe he\u2019s really gone. He always walked home the
+      same way, but that night\u2026 something wasn\u2019t right."
+    choices:
+    - text: Next Dialogue
+      nodeId: 663d90fa-6c45-4a7c-b661-9edc910381a1
+    groupId: 0528af25-a0b2-4668-a4ba-01eb7967edb6
+    dialogueType: 0
+    position: {x: -89.5, y: 135}
+  - id: 663d90fa-6c45-4a7c-b661-9edc910381a1
+    name: Dialogue2
+    text: I know. He mentioned to me earlier that day about a car parked near the
+      old oak. Said it gave him an odd feeling.
+    choices:
+    - text: Next Dialogue
+      nodeId: 44881fa3-edd8-4cc8-b633-9e421817a267
+    groupId: d96ff839-e08a-4823-9bac-ca5936380cf3
+    dialogueType: 0
+    position: {x: 696.5, y: 533}
+  - id: 44881fa3-edd8-4cc8-b633-9e421817a267
+    name: Dialogue3
+    text: Yes, and he was always so cautious. If only someone had been there to stop
+      him from taking that shortcut.
+    choices:
+    - text: Next Dialogue
+      nodeId: 69a289f8-094a-4a04-bec8-b5bcd197b649
+    groupId: 0528af25-a0b2-4668-a4ba-01eb7967edb6
+    dialogueType: 0
+    position: {x: 1497.5, y: 141}
+  - id: 69a289f8-094a-4a04-bec8-b5bcd197b649
+    name: Dialogue4
+    text: "Or if he hadn\u2019t stayed late at the library. He was so determined
+      to finish his project."
+    choices:
+    - text: Next Dialogue
+      nodeId: 99dd671e-4185-47b0-b959-e24f64f0a077
+    groupId: d96ff839-e08a-4823-9bac-ca5936380cf3
+    dialogueType: 0
+    position: {x: 2329, y: 533}
+  - id: 7af81976-40bf-41b1-8b6e-fb72f573a8bc
+    name: Dialogue6
+    text: "I can\u2019t help but think\u2026 if he had called someone, just told
+      them he was leaving, maybe things could\u2019ve been different."
+    choices:
+    - text: Next Dialogue
+      nodeId: 69e98b8e-c265-4780-a404-54ab1da52ac3
+    groupId: d96ff839-e08a-4823-9bac-ca5936380cf3
+    dialogueType: 0
+    position: {x: 3839, y: 533}
+  - id: 99dd671e-4185-47b0-b959-e24f64f0a077
+    name: Dialogue5
+    text: "You\u2019re right. It was the perfect storm\u2014a quiet street, no witnesses,
+      and that eerie silence before it happened."
+    choices:
+    - text: Next Dialogue
+      nodeId: 7af81976-40bf-41b1-8b6e-fb72f573a8bc
+    groupId: 0528af25-a0b2-4668-a4ba-01eb7967edb6
+    dialogueType: 0
+    position: {x: 3089, y: 137}
+  - id: 69e98b8e-c265-4780-a404-54ab1da52ac3
+    name: Dialogue7
+    text: "He always kept to himself. It\u2019s tragic, but maybe\u2026 someone else
+      will figure out the truth someday."
+    choices:
+    - text: Next Dialogue
+      nodeId: 
+    groupId: 0528af25-a0b2-4668-a4ba-01eb7967edb6
+    dialogueType: 0
+    position: {x: 4640.5, y: 137}
+  oldGroupNames:
+  - Relative1
+  - Relative2
+  oldUngroupedNames: []
+  oldGroupedNames:
+    list:
+    - Key: Relative1
+      Value:
+      - Dialogue1
+      - Dialogue3
+      - Dialogue5
+      - Dialogue7
+    - Key: Relative2
+      Value:
+      - Dialogue2
+      - Dialogue4
+      - Dialogue6

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec6bbbe839064b42b274b07db607aa1, type: 3}
+  m_Name: RelativesDialogue
+  m_EditorClassIdentifier: 
+  fileName: RelativesDialogue
+  dialogueGroups:
+    list:
+    - Key: {fileID: 11400000, guid: f1a2fe2c3a4434976b3e6892991cd56c, type: 2}
+      Value:
+      - {fileID: 11400000, guid: 85023626e33ff4c7dac4c9a5533bb397, type: 2}
+      - {fileID: 11400000, guid: e8dc6851c73504a69a34c7a7144f6af5, type: 2}
+      - {fileID: 11400000, guid: 8d190e8de76cf4eedb79d2e1c57c1124, type: 2}
+      - {fileID: 11400000, guid: 03083c8ab4f494af1852a54677ca1fd0, type: 2}
+    - Key: {fileID: 11400000, guid: 4d2abe2232915475caf15b2e5986b16d, type: 2}
+      Value:
+      - {fileID: 11400000, guid: 162f0833b9cb740dbaeab5f505335542, type: 2}
+      - {fileID: 11400000, guid: 856dc39b54b164756b631a88b15e6a3f, type: 2}
+      - {fileID: 11400000, guid: 04dfca732ade54500bb16d175a66dd49, type: 2}
+  ungroupedDialogues: []
