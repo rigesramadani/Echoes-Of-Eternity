@@ -7686,7 +7686,7 @@ MonoBehaviour:
   firstMenu: {fileID: 1717642837066987}
   playMenu: {fileID: 1530400188075735}
   exitMenu: {fileID: 1163271682713181}
-  theme: 1
+  theme: 0
   themeController: {fileID: 11400000, guid: e00c7d2bc58a2424b8dc09ecdafdb067, type: 2}
   controlsPanel: {fileID: 187005641}
   audioPanel: {fileID: 1480215326517511}
